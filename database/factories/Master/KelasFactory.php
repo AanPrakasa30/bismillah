@@ -18,7 +18,7 @@ class KelasFactory extends Factory
     {
         return [
             'jurusan' => fake()->boolean() ? 'IPS' : 'IPA',
-            'nama' => 'kelas - ' . rand(1, 100)
+            'nama' => 'kelas - ' . rand()
         ];
     }
 }
