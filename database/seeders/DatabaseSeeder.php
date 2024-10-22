@@ -14,8 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         if (\Illuminate\Support\Facades\App::isLocal()) {
-            // kelas seeder
-            \App\Models\Master\Kelas::factory(5)->create();
+            $this->call(SiswaSeeder::class);
         }
     }
 }
