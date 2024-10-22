@@ -52,7 +52,7 @@ class SiswaController extends Controller
     // create siswa by upload data
     public function upload()
     {
-
+        return view("pages.siswa.upload");
     }
 
     public function uploadPost()

@@ -32,6 +32,8 @@ Route::middleware(['auth'])->group(function () {
                 Route::get("/", [SiswaController::class, 'index'])->name("master.siswa.index");
                 Route::get("/create", [SiswaController::class, 'create'])->name("master.siswa.create");
                 Route::post("/create", [SiswaController::class, 'createPost']);
+
+                Route::get("/upload", [SiswaController::class, "upload"])->name("master.siswa.upload");
             });
         });
     });
