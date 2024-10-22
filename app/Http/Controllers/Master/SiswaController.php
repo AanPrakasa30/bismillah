@@ -30,8 +30,8 @@ class SiswaController extends Controller
 
         try {
             $siswa = Siswa::create([
+                'NIS' => $request->input('nis'),
                 'nama' => $request->input('name'),
-                'nis' => $request->input('nim'),
                 'kelamin' => $request->input('kelamin')
             ]);
 
@@ -40,10 +40,12 @@ class SiswaController extends Controller
                 'by' => auth()->user()->id
             ]);
 
-            // return 
+            return redirect()->route("master.siswa.index")->with("success", "berhasil menambah siswa baru dalam data");
         } catch (\Throwable $th) {
             dd($th->getMessage());
             logError('siswa failed to create', $th);
+
+            return back()->with("error", "gagal membuat siswa baru");
         }
     }
 

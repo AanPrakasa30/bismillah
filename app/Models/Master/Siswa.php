@@ -11,6 +11,10 @@ class Siswa extends Model
 {
     use HasFactory;
 
+    protected $guarded = [
+        'id'
+    ];
+
     // relasi
     public function kelas(): BelongsToMany
     {
