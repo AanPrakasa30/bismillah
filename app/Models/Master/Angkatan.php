@@ -12,4 +12,10 @@ class Angkatan extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function siswa()
+    {
+        return $this->belongsToMany(\App\Models\Master\Siswa::class, 'kelas_siswa', 'angkatan_id', 'siswa_id')
+            ->using(\App\Models\Relasi\KelasSiswa::class);
+    }
 }
