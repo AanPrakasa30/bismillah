@@ -37,4 +37,20 @@ Route::middleware(['auth'])->group(function () {
             });
         });
     });
+
+    // file path
+    Route::prefix("file")->group(function () {
+        Route::post("upload", function (\App\Services\Interfaces\FileService $fileService, \Illuminate\Http\Request $request) {
+            $upload = $fileService->uploadTemp($request);
+
+            return !$upload ? response()->json(status: 400, data: [
+                'status' => 'error',
+                'message' => 'file failed to upload'
+            ]) : $upload;
+        })->name("file.upload");
+
+        Route::delete("revert", function (\Illuminate\Http\Request $request, \App\Services\Interfaces\FileService $fileService) {
+            return $fileService->revertTemp($request);
+        })->name("file.revert");
+    });
 });
