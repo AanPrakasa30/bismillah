@@ -3,6 +3,7 @@
 @section('body')
 <header>
     <x-main-header title="Buat Data Siswa Baru" />
+    <x-breadcrumb :datas="[route('master.siswa.index') => 'Siswa']" last="Buat Data Siswa" />
 </header>
 
 <section class="w-full p-4 border border-gray-100 shadow rounded-lg">
