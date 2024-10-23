@@ -19,4 +19,13 @@ interface FileService
      * @return bool
      */
     function revertTemp(\Illuminate\Http\Request $request): bool;
+
+    /**
+     * Summary of getTempPathFile
+     * 
+     * get path storage local og temp file target
+     * @param int $tempFolderNumber
+     * @return string
+     */
+    function getTempPathFile(int $tempFolderNumber): string;
 }

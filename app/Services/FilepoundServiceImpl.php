@@ -74,4 +74,19 @@ class FilepoundServiceImpl implements FileService
 
         return true;
     }
+
+    public function getTempPathFile(int $tempFolderNumber): string
+    {
+        $temp = FileTemp::where('folder', $tempFolderNumber)->first();
+
+        if (!$temp) {
+            throw new \Exception("temp tidak ditemukan");
+        }
+
+        if (!Storage::disk("local")->exists(self::TEMP_PATH . $temp->folder)) {
+            throw new \Exception("file target not exists");
+        }
+
+        return self::TEMP_PATH . "$temp->folder/$temp->file";
+    }
 }
