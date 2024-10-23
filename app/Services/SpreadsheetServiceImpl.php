@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\SpreadsheetException;
 use App\Services\Interfaces\SpreadsheetService;
 use Storage;
 
@@ -13,6 +14,46 @@ class SpreadsheetServiceImpl implements SpreadsheetService
         \PhpOffice\PhpSpreadsheet\IOFactory::READER_XLSX,
         \PhpOffice\PhpSpreadsheet\IOFactory::READER_CSV,
     ];
+
+    public function validateColumnNames(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $activeSpreadsheet, string $firstColumnIndex, string $lastColumnIndex, array $allowedNames): bool
+    {
+        if (is_numeric($firstColumnIndex) || is_numeric($lastColumnIndex)) {
+            throw new \Exception("only support alphabet string");
+        }
+
+        if (strlen($firstColumnIndex) > 1 || strlen($lastColumnIndex) > 1) {
+            throw new \Exception("hanya satu huruf alphabet yang diperbolehkan");
+        }
+
+
+        $firstColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($firstColumnIndex);
+        $lastColumnIndex  = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($lastColumnIndex);
+
+        $firstRow = 1;
+        $lastRow  = 1;
+        $datas    = [];
+
+        // mapping header col
+        for ($row = $firstRow; $row <= $lastRow; ++$row) {
+            for ($col = $firstColumnIndex; $col <= $lastColumnIndex; ++$col) {
+                $datas[$col - 1] = $activeSpreadsheet->getCell([$col, $row])->getValue();
+            }
+        }
+
+        // jika panjang data yang ada di file head dan header allowed tidak sama
+        if (count($datas) != count($allowedNames)) {
+            throw new \Exception("panjang header col tidak sama");
+        }
+
+        // jika ada value yang tidak sesuai antara ke dua data
+        foreach ($datas as $key => $item) {
+            if ($allowedNames[$key] !== $datas[$key]) {
+                throw new SpreadsheetException("header tidak sesuai dengan format");
+            }
+        }
+
+        return true;
+    }
 
     public function read(string $pathFile, string $storageDriver = 'local'): \PhpOffice\PhpSpreadsheet\Spreadsheet
     {
