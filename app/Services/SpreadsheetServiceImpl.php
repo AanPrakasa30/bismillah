@@ -44,6 +44,35 @@ class SpreadsheetServiceImpl implements SpreadsheetService
         }
     }
 
+    /**
+     * Summary of validateAndMappingInputColumnIndex
+     * 
+     * validasi inputan yang datang, return sebuah error exception dan mapping menjadi sebuah array
+     * @param string $firstColumnIndex
+     * @param string $lastColumnIndex
+     * @throws \Exception
+     * @return array
+     */
+    private function validateAndMappingInputColumnIndex(string $firstColumnIndex, string $lastColumnIndex): array
+    {
+        if (is_numeric($firstColumnIndex) || is_numeric($lastColumnIndex)) {
+            throw new \Exception("only support alphabet string");
+        }
+
+        if (strlen($firstColumnIndex) > 1 || strlen($lastColumnIndex) > 1) {
+            throw new \Exception("hanya satu huruf alphabet yang diperbolehkan");
+        }
+
+        // translate
+        $firstColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($firstColumnIndex);
+        $lastColumnIndex  = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($lastColumnIndex);
+
+        return [
+            'first' => $firstColumnIndex,
+            'last' => $lastColumnIndex
+        ];
+    }
+
     public function validateColumnNames(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $activeSpreadsheet, string $firstColumnIndex, string $lastColumnIndex, array $allowedNames): bool
     {
         if (is_numeric($firstColumnIndex) || is_numeric($lastColumnIndex)) {
@@ -82,5 +111,26 @@ class SpreadsheetServiceImpl implements SpreadsheetService
         }
 
         return true;
+    }
+
+    public function exportsDataCellInto2DArray(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $activeSpreadsheet, string $firstColumnIndex, string $lastColumnIndex): array
+    {
+        $highestRow = $activeSpreadsheet->getHighestRow();
+
+        if ($highestRow < 1) {
+            throw new SpreadsheetException("tidak dapat membaca data atau data kosong");
+        }
+
+        $columnIndex = $this->validateAndMappingInputColumnIndex($firstColumnIndex, $lastColumnIndex);
+
+        // mapping header col
+        $datas = [];
+        for ($row = 1; $row <= $highestRow; ++$row) {
+            for ($col = $columnIndex['first']; $col <= $columnIndex['last']; ++$col) {
+                $datas[$row][$col] = $activeSpreadsheet->getCell([$col, $row])->getValue();
+            }
+        }
+
+        return $datas;
     }
 }

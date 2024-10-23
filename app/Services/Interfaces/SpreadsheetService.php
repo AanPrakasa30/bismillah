@@ -27,4 +27,14 @@ interface SpreadsheetService
      */
     function validateColumnNames(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $activeSpreadsheet, string $firstColumnIndex, string $lastColumnIndex, array $allowedNames): bool;
 
+    /**
+     * Summary of exportsDataCellInto2DArray
+     * 
+     * export data worksheet menjadi data 2D array
+     * @param \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $activeSpreadsheet
+     * @param string $firstColumnIndex
+     * @param string $lastColumnIndex
+     * @return array
+     */
+    function exportsDataCellInto2DArray(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $activeSpreadsheet, string $firstColumnIndex, string $lastColumnIndex): array;
 }
