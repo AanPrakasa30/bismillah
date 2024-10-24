@@ -90,6 +90,8 @@ class AbsenServiceImpl implements AbsenService
                         } else {
                             $reports['error']['duplicate'][] = $siswaDatas;
                         }
+                    } else {
+                        $reports['error']['unknow'][] = $siswaDatas;
                     }
                 } else {
                     $reports['error']['syntax'][] = $siswaDatas;
@@ -104,7 +106,7 @@ class AbsenServiceImpl implements AbsenService
         }
 
         // delete temp file and data
-        $this->fileService->deleteTempData($folderTemp);
+        // $this->fileService->deleteTempData($folderTemp);
 
         return $reports;
     }
