@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Master\SiswaController;
@@ -25,6 +26,11 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('profile')->group(function () {
             Route::get('/', [UserProfileController::class, 'index'])->name('profile.index');
             Route::post('/', [UserProfileController::class, 'update']);
+        });
+
+        Route::prefix("absen")->group(function () {
+            Route::get("/upload", [AbsensiController::class, 'upload'])->name("absen.upload");
+            Route::post("/upload", [AbsensiController::class, 'uploadPost']);
         });
 
         Route::prefix("master")->group(function () {
