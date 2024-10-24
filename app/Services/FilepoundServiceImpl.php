@@ -93,7 +93,7 @@ class FilepoundServiceImpl implements FileService
     public function deleteTempData(int $tempFolderNumber): bool
     {
         $temp = FileTemp::where('folder', $tempFolderNumber)->first();
-        if (!$temp) {
+        if ($temp) {
             Storage::disk('local')->deleteDirectory(self::TEMP_PATH . $tempFolderNumber);
             $temp->delete();
 
