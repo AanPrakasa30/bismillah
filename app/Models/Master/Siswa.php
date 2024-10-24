@@ -11,6 +11,11 @@ class Siswa extends Model
 {
     use HasFactory;
 
+    const KELAMIN = [
+        'PRIA',
+        'WANITA'
+    ];
+
     protected $guarded = [
         'id'
     ];

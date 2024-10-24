@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::post("/create", [SiswaController::class, 'createPost']);
 
                 Route::get("/upload", [SiswaController::class, "upload"])->name("master.siswa.upload");
+                Route::post("/upload", [SiswaController::class, "uploadPost"]);
             });
         });
     });
@@ -53,4 +54,32 @@ Route::middleware(['auth'])->group(function () {
             return $fileService->revertTemp($request);
         })->name("file.revert");
     });
+});
+
+Route::get("/test", function (\App\Services\Interfaces\FileService $fileService) {
+
+    dd($fileService->getTempPathFile(2118601676));
+
+    // $spreadsheet = $spreadsheetService->read('temp/test-siswa.xlsx');
+
+    // $worksheet = $spreadsheet->getActiveSheet();
+
+    // // dd($spreadsheet, $worksheet->getHighestRow(), $worksheet->getHighestRowAndColumn());
+
+    // try {
+    //     $spreadsheetService->validateColumnNames($worksheet, 'A', 'D', [
+    //         'NO',
+    //         'NIS',
+    //         'NAMA',
+    //         'KELAMIN'
+    //     ]);
+
+    //     dd($spreadsheetService->exportsDataCellInto2DArray($worksheet, 'A', 'D'));
+
+    // } catch (\App\Exceptions\SpreadsheetException $spreadsheetException) {
+    //     dd('ini exce cost', $spreadsheetException->getMessage());
+    // } catch (\Throwable $th) {
+    //     //throw $th;
+    //     dd('ini Throwable', $th);
+    // }
 });

@@ -52,11 +52,33 @@ class SiswaController extends Controller
     // create siswa by upload data
     public function upload()
     {
-        return view("pages.siswa.upload");
+        // jika ada hasil reports sebelumnya
+        $reports = session(auth()->user()->id . "-upload-siswa") ?? null;
+
+        session()->forget(auth()->user()->id . "-upload-siswa");
+
+        return view("pages.siswa.upload", compact("reports"));
     }
 
-    public function uploadPost()
+    public function uploadPost(Request $request, \App\Services\Interfaces\SiswaService $siswaService)
     {
+        $request->validate([
+            'fileSiswa' => ['required']
+        ]);
 
+        try {
+            $reports = $siswaService->createSiswasBySpreadsheetTemp($request->input('fileSiswa'));
+
+            session([
+                auth()->user()->id . "-upload-siswa" => $reports
+            ]);
+
+            return back()->with('success', 'data berhasil diolah');
+        } catch (\App\Exceptions\SpreadsheetException $spreadsheetException) {
+            return back()->with('error', $spreadsheetException->getMessage());
+        } catch (\Throwable $th) {
+            logError('siswa failed to create by upload', $th);
+            return back()->with('error', 'terdapat kesalahan, coba lagi nanti');
+        }
     }
 }
