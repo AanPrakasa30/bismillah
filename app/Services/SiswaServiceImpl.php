@@ -54,10 +54,10 @@ class SiswaServiceImpl implements SiswaService
             $reports = [];
             foreach ($datas as $key => $siswaDatas) {
                 if (in_array(trim($siswaDatas['4']), Siswa::KELAMIN) && !in_array(null, $siswaDatas) && is_numeric(trim($siswaDatas['2']))) {
-                    $siswa = Siswa::firstOrCreate(['NIS' => $siswaDatas['2']], [
-                        'NIS' => $siswaDatas['2'],
-                        'nama' => $siswaDatas['3'],
-                        'kelamin' => $siswaDatas['4']
+                    $siswa = Siswa::firstOrCreate(['NIS' => trim($siswaDatas['2'])], [
+                        'NIS' => trim($siswaDatas['2']),
+                        'nama' => trim($siswaDatas['3']),
+                        'kelamin' => trim($siswaDatas['4'])
                     ]);
 
                     if ($siswa->wasRecentlyCreated) {
