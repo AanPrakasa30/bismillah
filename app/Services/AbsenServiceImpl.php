@@ -106,7 +106,7 @@ class AbsenServiceImpl implements AbsenService
         }
 
         // delete temp file and data
-        // $this->fileService->deleteTempData($folderTemp);
+        $this->fileService->deleteTempData($folderTemp);
 
         return $reports;
     }
