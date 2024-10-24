@@ -28,4 +28,13 @@ interface FileService
      * @return string
      */
     function getTempPathFile(int $tempFolderNumber): string;
+
+    /**
+     * Summary of deleteTempData
+     * 
+     * delet file and data by folder temp name
+     * @param int $tempFolderNumber
+     * @return bool
+     */
+    function deleteTempData(int $tempFolderNumber): bool;
 }
