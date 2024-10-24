@@ -48,7 +48,7 @@
     </div>
 </section>
 
-{{-- @if ($reports)
+@if ($reports)
 <section class="mt-10">
     <h2 class="font-medium text-lg mb-5">Hasil Upload</h2>
     @isset($reports['error']['duplicate'])
@@ -60,7 +60,8 @@
             <div>
                 <span class="font-medium">Kesalahan Data :</span>
                 <ul class="mt-1.5 list-disc list-inside">
-                    <li>NIS sudah pernah terdaftar</li>
+                    <li>ketidakhadiran siswa pernah terdata pada tanggal tersebut</li>
+                    <li>Ubah tanggal data / ubah secara manual pada sistem</li>
                 </ul>
             </div>
         </div>
@@ -78,7 +79,19 @@
                             Nama
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Kelamin
+                            Kelas
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tahun Angkatan
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tanggal
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tipe Absen
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Keterangan
                         </th>
                     </tr>
                 </thead>
@@ -97,6 +110,18 @@
                             <td class="px-6 py-4">
                                 {{ $item['4'] }}
                             </td>
+                            <td class="px-6 py-4">
+                                {{ $item['5'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['6'] instanceof \DateTime ? $item['6']->format('d/m/Y') : $item['6'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['7'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['8'] }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -106,7 +131,7 @@
     @endisset
     @isset($reports['error']['syntax'])
     <div class="w-full p-4 border border-gray-100 shadow rounded-lg gap-5 my-4">
-        <div class="flex p-4 mb-4 text-sm text-red-800 border-t-4 border-red-300 bg-red-50" role="alert">
+        <div class="flex p-4 mb-4 text-sm text-yellow-800 border-t-4 border-yellow-300 bg-yellow-50" role="alert">
             <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
             </svg>
@@ -114,14 +139,14 @@
                 <span class="font-medium">Kesalahan Penulisan :</span>
                 <ul class="mt-1.5 list-disc list-inside">
                     <li>terdapat cell yang kosong</li>
-                    <li>kelamin hanya: PRIA, WANITA (wajib kapital)</li>
-                    <li>NIS harus angka</li>
+                    <li>NIS atau tahun angkatan harus angka</li>
+                    <li>tanggal tidak sesuai</li>
                 </ul>
             </div>
         </div>
         <div class="relative overflow-x-auto">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase bg-red-50">
+                <thead class="text-xs text-gray-700 uppercase bg-yellow-50">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             No
@@ -133,7 +158,19 @@
                             Nama
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Kelamin
+                            Kelas
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tahun Angkatan
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tanggal
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tipe Absen
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Keterangan
                         </th>
                     </tr>
                 </thead>
@@ -151,6 +188,95 @@
                             </td>
                             <td class="px-6 py-4">
                                 {{ $item['4'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['5'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['6'] instanceof \DateTime ? $item['6']->format('d/m/Y') : $item['6'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['7'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['8'] }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @endisset
+    @isset($reports['error']['unknow'])
+    <div class="w-full p-4 border border-gray-100 shadow rounded-lg gap-5 my-4">
+        <div class="flex p-4 mb-4 text-sm text-red-800 border-t-4 border-red-300 bg-red-50" role="alert">
+            <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+            </svg>
+            <div>
+                <span class="font-medium">Tidak Ditemukan :</span>
+                <ul class="mt-1.5 list-disc list-inside">
+                    <li>NIS tidak ditemukan</li>
+                </ul>
+            </div>
+        </div>
+        <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-red-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            No
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            NIS
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Nama
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Kelas
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tahun Angkatan
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tanggal
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tipe Absen
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Keterangan
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($reports['error']['unknow'] as $item)
+                        <tr class="bg-white border-b">
+                            <td class="px-6 py-4">
+                                {{ $item['1'] }}
+                            </td>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                {{ $item['2'] }}
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ $item['3'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['4'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['5'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['6'] instanceof \DateTime ? $item['6']->format('d/m/Y') : $item['6'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['7'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['8'] }}
                             </td>
                         </tr>
                     @endforeach
@@ -183,7 +309,19 @@
                             Nama
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Kelamin
+                            Kelas
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tahun Angkatan
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tanggal
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tipe Absen
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Keterangan
                         </th>
                     </tr>
                 </thead>
@@ -202,6 +340,18 @@
                             <td class="px-6 py-4">
                                 {{ $item['4'] }}
                             </td>
+                            <td class="px-6 py-4">
+                                {{ $item['5'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['6'] instanceof \DateTime ? $item['6']->format('d/m/Y') : $item['6'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['7'] }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $item['8'] }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -210,7 +360,7 @@
     </div>
     @endisset
 </section>
-@endif --}}
+@endif
 @endsection
 
 @push('script')
