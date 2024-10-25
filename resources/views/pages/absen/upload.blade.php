@@ -27,8 +27,7 @@
         <div class="">
             <h2 class="font-semibold text-xl">Ketentuan Upload</h2>
             <ol class="ml-8 list-disc">
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, distinctio!</li>
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, distinctio!</li>
+                <li>Sesuaikan dengan tamplate dibawah ini</li>
             </ol>
 
             <div class="mt-4">
@@ -42,7 +41,7 @@
             <x-basic-input type="file" name="fileAbsen" />
 
             <div class="flex justify-end">
-                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2">Upload</button>
+                <x-button-loading-submit title="Submit" />
             </div>
         </form>
     </div>
@@ -370,6 +369,7 @@
 <script>
     const inputElement = document.querySelector('input[type="file"]');
     const btnSubmit = document.getElementById('btn-submit')
+    const btnLoading = document.getElementById('btn-loading')
     // Register the plugin
     FilePond.registerPlugin(FilePondPluginFileValidateType);
 
@@ -379,18 +379,26 @@
         onprocessfilestart: (file) => {
             console.log('file been process');
             btnSubmit.disabled = true;
+            btnSubmit.classList.add('hidden')
+            btnLoading.classList.remove('hidden')
         },
         onprocessfilerevert: (file) => {
             console.log('file been revert');
             btnSubmit.disabled = true;
+            btnSubmit.classList.add('hidden')
+            btnLoading.classList.remove('hidden')
         },
         onprocessfile: (error, file) => {
             console.log(error, file);
             btnSubmit.disabled = false;
+            btnSubmit.classList.remove('hidden')
+            btnLoading.classList.add('hidden')
         },
         onremovefile: (error, file) => {
             console.log(error);
             btnSubmit.disabled = false;
+            btnSubmit.classList.remove('hidden')
+            btnLoading.classList.add('hidden')
         },
         server: {
             process: {
