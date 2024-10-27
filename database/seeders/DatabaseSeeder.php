@@ -13,10 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(UserSeeder::class);
+
         if (\Illuminate\Support\Facades\App::isLocal()) {
             $this->call(SiswaSeeder::class);
 
-            $this->call(KasusSeeder::class);
+            $this->call([
+                KasusSeeder::class,
+                HomeSeeder::class,
+                KonselingSeeder::class
+            ]);
         }
     }
 }

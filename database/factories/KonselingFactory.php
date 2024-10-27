@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Master\Siswa;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class KonselingFactory extends Factory
     public function definition(): array
     {
         return [
-            ''
+            'siswa_id' => Siswa::inRandomOrder()->first()->id,
+            'nama' => fake()->paragraph(1),
+            'kasus' => fake()->paragraph(1),
+            'solusi' => fake()->boolean() ? fake()->paragraph(2) : null
         ];
     }
 }
