@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeVisitController;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\Master\KelasController;
 use App\Http\Controllers\Master\SiswaController;
@@ -40,6 +41,13 @@ Route::middleware(['auth'])->group(function () {
             Route::get("create", [KasusController::class, 'create'])->name("kasus.create");
             Route::post("create", [KasusController::class, 'createPost']);
             Route::get("/{id}/delete", [KasusController::class, 'delete'])->name("kasus.delete");
+        });
+
+        Route::prefix("visit")->group(function () {
+            Route::get("/", [HomeVisitController::class, "index"])->name("visit.index");
+            Route::get("/create", [HomeVisitController::class, "create"])->name("visit.create");
+            Route::post("/create", [HomeVisitController::class, "createPost"]);
+            Route::get("/{id}/delete", [HomeVisitController::class, "delete"])->name("visit.delete");
         });
 
         Route::prefix("master")->group(function () {
