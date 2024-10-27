@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Master\KelasController;
 use App\Http\Controllers\Master\SiswaController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,16 @@ Route::middleware(['auth'])->group(function () {
                 Route::post("/upload", [SiswaController::class, "uploadPost"]);
 
                 Route::get("/{nis}", [SiswaController::class, 'detail'])->name("master.siswa.detail");
+            });
+
+            Route::prefix("kelas")->group(function () {
+                Route::get("/", [KelasController::class, "index"])->name("master.kelas.index");
+                Route::post("/", [KelasController::class, "createPost"]);
+
+                Route::get("/{id}/edit", [KelasController::class, "edit"])->name("master.kelas.edit");
+                Route::post("/{id}/edit", [KelasController::class, "editPost"]);
+
+                Route::get("/{id}/delete", [KelasController::class, "delete"])->name("master.kelas.delete");
             });
         });
     });
