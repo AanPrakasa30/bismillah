@@ -1,15 +1,25 @@
-<div>
+<div class="">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
-        <div class="w-full">
-            <x-basic-label title="Jenis Kelamin" />
-            <select wire:model.live.debounce.400ms="filterKelamin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option value="All">Semua</option>
-                <option>PRIA</option>
-                <option>WANITA</option>
-            </select>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div class="w-full">
+                <x-basic-label title="Tahun" />
+                <select wire:model.live.debounce.400ms="filterKelamin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="All">Semua</option>
+                    <option>PRIA</option>
+                    <option>WANITA</option>
+                </select>
+            </div>
+            <div class="w-full">
+                <x-basic-label title="Tipe" />
+                <select wire:model.live.debounce.400ms="filterKelamin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="All">Semua</option>
+                    <option>PRIA</option>
+                    <option>WANITA</option>
+                </select>
+            </div>
         </div>
         <div class="w-full">
-            <x-basic-label title="Cari Nama" />
+            <x-basic-label title="Cari" />
             <input type="search" wire:model.live.debounce.400ms="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5" placeholder="Search...">
         </div>
     </div>
@@ -26,16 +36,17 @@
             <thead class="text-xs text-gray-700 uppercase bg-green-100">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        No
-                    </th>
-                    <th scope="col" class="w-2/3 px-6  py-4 font-medium text-gray-900 whitespace-nowrap">
-                        Nama
+                        Tanggal Absen
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Kelamin
+                        Kelas
+                    </th>
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Tanggal Simpan
+                        Tipe
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Keterangan
                     </th>
                     <th scope="col" class="px-6 py-3">
                         
@@ -43,27 +54,29 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($siswas as $key => $item)
-                <tr class="bg-white border-b hover:bg-gray-100">
-                    <td class="px-6 py-4">
-                        {{ ($siswas->currentPage() - 1) * $siswas->perPage() + $key + 1 }}
-                    </td>
+                @forelse ($ketidakhadiran as $item)
+                <tr class="bg-white border-b hover:bg-gray-50">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {{ $item->nama }}
+                        {{ $item->tanggal }}
                     </th>
                     <td class="px-6 py-4">
-                        {{ $item->kelamin }}
+                        {{ $item->kelas }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $item->created_at }}
+                        {{ $item->tipe }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $item->keterangan }}
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('master.siswa.detail', $item->NIS) }}" class="font-medium text-blue-600 hover:underline">Detail</a> | <a href="#" class="font-medium text-red-600 hover:underline">Delete</a>
+                        <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+                        |
+                        <a href="#" class="font-medium text-red-600 hover:underline">Delete</a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="px-6 py-4 text-center text-gray-900 font-medium text-md">Tidak Ditemukan</td>
+                    <td colspan="6" class="px-6 py-4 text-center">tidak ada data ketidakhadiran</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -79,7 +92,7 @@
         </select>
     </div>
 
-    <div class="w-full mt-4">
-        {{ $siswas->links() }}
+    <div class="flex justify-end">
+        {{ $ketidakhadiran->links() }}
     </div>
 </div>
