@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KasusController;
 use App\Http\Controllers\Master\KelasController;
 use App\Http\Controllers\Master\SiswaController;
 use App\Http\Controllers\UserProfileController;
@@ -32,6 +33,13 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix("absen")->group(function () {
             Route::get("/upload", [AbsensiController::class, 'upload'])->name("absen.upload");
             Route::post("/upload", [AbsensiController::class, 'uploadPost']);
+        });
+
+        Route::prefix("kasus")->group(function () {
+            Route::get("/", [KasusController::class, "index"])->name("kasus.index");
+            Route::get("create", [KasusController::class, 'create'])->name("kasus.create");
+            Route::post("create", [KasusController::class, 'createPost']);
+            Route::get("/{id}/delete", [KasusController::class, 'delete'])->name("kasus.delete");
         });
 
         Route::prefix("master")->group(function () {
@@ -73,32 +81,4 @@ Route::middleware(['auth'])->group(function () {
             return $fileService->revertTemp($request);
         })->name("file.revert");
     });
-});
-
-Route::get("/test", function (\App\Services\Interfaces\FileService $fileService) {
-
-    dd($fileService->getTempPathFile(2118601676));
-
-    // $spreadsheet = $spreadsheetService->read('temp/test-siswa.xlsx');
-
-    // $worksheet = $spreadsheet->getActiveSheet();
-
-    // // dd($spreadsheet, $worksheet->getHighestRow(), $worksheet->getHighestRowAndColumn());
-
-    // try {
-    //     $spreadsheetService->validateColumnNames($worksheet, 'A', 'D', [
-    //         'NO',
-    //         'NIS',
-    //         'NAMA',
-    //         'KELAMIN'
-    //     ]);
-
-    //     dd($spreadsheetService->exportsDataCellInto2DArray($worksheet, 'A', 'D'));
-
-    // } catch (\App\Exceptions\SpreadsheetException $spreadsheetException) {
-    //     dd('ini exce cost', $spreadsheetException->getMessage());
-    // } catch (\Throwable $th) {
-    //     //throw $th;
-    //     dd('ini Throwable', $th);
-    // }
 });
