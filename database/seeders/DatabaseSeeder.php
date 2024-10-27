@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         if (\Illuminate\Support\Facades\App::isLocal()) {
             $this->call(SiswaSeeder::class);
+
+            $this->call(KasusSeeder::class);
         }
     }
 }
