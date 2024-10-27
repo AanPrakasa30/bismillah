@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeVisitController;
 use App\Http\Controllers\KasusController;
+use App\Http\Controllers\KonselingController;
 use App\Http\Controllers\KonselingKelController;
 use App\Http\Controllers\Master\KelasController;
 use App\Http\Controllers\Master\SiswaController;
@@ -58,6 +59,15 @@ Route::middleware(['auth'])->group(function () {
             Route::get("/{id}/detail", [KonselingKelController::class, "detail"])->name("konseling-kel.detail");
             Route::post("/{id}/detail", [KonselingKelController::class, "detailPost"]);
             Route::get("/{id}/delete", [KonselingKelController::class, "delete"])->name("konseling-kel.delete");
+        });
+
+        Route::prefix("konseling")->group(function () {
+            Route::get("/", [KonselingController::class, "index"])->name("konseling.index");
+            Route::get("/create", [KonselingController::class, "create"])->name("konseling.create");
+            Route::post("/create", [KonselingController::class, "createPost"]);
+            Route::get("/{id}/detail", [KonselingController::class, "detail"])->name("konseling.detail");
+            Route::post("/{id}/detail", [KonselingController::class, "detailPost"]);
+            Route::get("/{id}/delete", [KonselingController::class, "delete"])->name("konseling.delete");
         });
 
         Route::prefix("master")->group(function () {
