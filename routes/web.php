@@ -34,8 +34,12 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix("absen")->group(function () {
+            Route::get("/", [AbsensiController::class, 'index'])->name("absen.index");
+            Route::get("/create", [AbsensiController::class, 'create'])->name("absen.create");
+            Route::post("/create", [AbsensiController::class, 'createPost']);
             Route::get("/upload", [AbsensiController::class, 'upload'])->name("absen.upload");
             Route::post("/upload", [AbsensiController::class, 'uploadPost']);
+            Route::get("/delete/{id}", [AbsensiController::class, 'delete'])->name("absen.delete");
         });
 
         Route::prefix("kasus")->group(function () {
