@@ -25,6 +25,7 @@ class Siswa extends Model
     {
         return $this->belongsToMany(\App\Models\Master\Kelas::class, 'kelas_siswa')
             ->using(\App\Models\Relasi\KelasSiswa::class)
+            ->orderByDesc('tahun')
             ->withPivot('tahun');
     }
 }

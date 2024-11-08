@@ -58,7 +58,7 @@
                         {{ $item->created_at }}
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('master.siswa.detail', $item->NIS) }}" class="font-medium text-blue-600 hover:underline">Detail</a> | <a href="#" class="font-medium text-red-600 hover:underline">Delete</a>
+                        <a href="{{ route('master.siswa.detail', $item->NIS) }}" class="font-medium text-blue-600 hover:underline">Detail</a>
                     </td>
                 </tr>
                 @empty
