@@ -93,6 +93,9 @@ Route::middleware(['auth'])->group(function () {
                 Route::get("/{id}/edit", [KelasController::class, "edit"])->name("master.kelas.edit");
                 Route::post("/{id}/edit", [KelasController::class, "editPost"]);
 
+                ROute::get('/{id}/upload-siswa', [KelasController::class, "uploadSiswa"])->name("master.kelas.upload");
+                ROute::post('/{id}/upload-siswa', [KelasController::class, "uploadSiswaPost"]);
+
                 Route::get("/{id}/delete", [KelasController::class, "delete"])->name("master.kelas.delete");
             });
         });

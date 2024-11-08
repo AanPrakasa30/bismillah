@@ -72,6 +72,40 @@ class KelasController extends Controller
         }
     }
 
+    public function uploadSiswa($id)
+    {
+        // jika ada hasil reports sebelumnya
+        $reports = session(auth()->user()->id . "-upload-siswa-kelas") ?? null;
+
+        session()->forget(auth()->user()->id . "-upload-siswa-kelas");
+
+        return view("pages.kelas.upload-siswa-kelas", compact("id", "reports"));
+    }
+
+    public function uploadSiswaPost(Request $request, $id, \App\Services\Interfaces\SiswaService $siswaService)
+    {
+        $request->validate([
+            "fileSiswa" => "required",
+            "tahun" => ["required", "string", "max:4", "min:4"]
+        ]);
+
+        $kelas = Kelas::findOrFail($id);
+
+        try {
+            $reports = $siswaService->registerKelasSiswaBySpreadsheetTemp($request->input("fileSiswa"), $kelas, $request->input("tahun"));
+
+            session([
+                auth()->user()->id . "-upload-siswa-kelas" => $reports
+            ]);
+
+            return back()->with('success', 'data berhasil diolah');
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            dd($th);
+        }
+    }
+
     public function delete($id)
     {
         $kelas = Kelas::findOrFail($id);

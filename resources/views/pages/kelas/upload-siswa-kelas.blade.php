@@ -15,7 +15,7 @@
 
 @section('body')
 <header>
-    <x-main-header title="Upload Abses Siswa" />
+    <x-main-header title="Upload Siswa ke Kelas" />
     <x-breadcrumb :datas="[route('master.kelas.index') => 'Kelas', route('master.kelas.edit', $id) => 'Detail']" last="Upload Data Siswa" />
 </header>
 
@@ -33,12 +33,17 @@
             <div class="mt-4">
             </div>
             <div class="mt-6">
-                <a href="{{ asset('assets/spreadsheet/tamplate-absen-siswa.xlsx') }}" class="w-full flex items-center justify-center gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2">Download Tamplate <i class="fa-solid fa-file-arrow-down"></i></a>
+                <a href="#" class="w-full flex items-center justify-center gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2">Download Tamplate <i class="fa-solid fa-file-arrow-down"></i></a>
             </div>
         </div>
         <form action="" method="post">
             @csrf
-            <x-basic-input type="file" name="fileAbsen" />
+            <x-basic-input type="file" name="fileSiswa" />
+
+            <div class="mb-5">
+                <x-basic-label for="tahun" title="Tahun" />
+                <x-basic-input type="number" id="tahun" name="tahun" value="{{ old('tahun') }}" required />
+            </div>
 
             <div class="flex justify-end">
                 <x-button-loading-submit title="Submit" />
@@ -59,8 +64,8 @@
             <div>
                 <span class="font-medium">Kesalahan Data :</span>
                 <ul class="mt-1.5 list-disc list-inside">
-                    <li>ketidakhadiran siswa pernah terdata pada tanggal tersebut</li>
-                    <li>Ubah tanggal data / ubah secara manual pada sistem</li>
+                    <li>Siswa tersebut sudah pernah terdaftar pada kelas ini dengan tahun yang sama</li>
+                    <li>Ubah secara manual pada kelas atau siswa</li>
                 </ul>
             </div>
         </div>
@@ -77,21 +82,6 @@
                         <th scope="col" class="px-6 py-3">
                             Nama
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Kelas
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tahun Angkatan
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tanggal
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tipe Absen
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Keterangan
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,21 +95,6 @@
                             </th>
                             <td class="px-6 py-4">
                                 {{ $item['3'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['4'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['5'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['6'] instanceof \DateTime ? $item['6']->format('d/m/Y') : $item['6'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['7'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['8'] }}
                             </td>
                         </tr>
                     @endforeach
@@ -156,21 +131,6 @@
                         <th scope="col" class="px-6 py-3">
                             Nama
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Kelas
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tahun Angkatan
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tanggal
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tipe Absen
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Keterangan
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -184,21 +144,6 @@
                             </th>
                             <td class="px-6 py-4">
                                 {{ $item['3'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['4'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['5'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['6'] instanceof \DateTime ? $item['6']->format('d/m/Y') : $item['6'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['7'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['8'] }}
                             </td>
                         </tr>
                     @endforeach
@@ -233,21 +178,6 @@
                         <th scope="col" class="px-6 py-3">
                             Nama
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Kelas
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tahun Angkatan
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tanggal
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tipe Absen
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Keterangan
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -261,21 +191,6 @@
                             </th>
                             <td class="px-6 py-4">
                                 {{ $item['3'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['4'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['5'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['6'] instanceof \DateTime ? $item['6']->format('d/m/Y') : $item['6'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['7'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['8'] }}
                             </td>
                         </tr>
                     @endforeach
@@ -307,21 +222,6 @@
                         <th scope="col" class="px-6 py-3">
                             Nama
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Kelas
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tahun Angkatan
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tanggal
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Tipe Absen
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Keterangan
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -335,21 +235,6 @@
                             </th>
                             <td class="px-6 py-4">
                                 {{ $item['3'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['4'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['5'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['6'] instanceof \DateTime ? $item['6']->format('d/m/Y') : $item['6'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['7'] }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item['8'] }}
                             </td>
                         </tr>
                     @endforeach
