@@ -13,4 +13,9 @@ class KelasSiswa extends Pivot
     protected $guarded = [
         'id'
     ];
+
+    public function siswa()
+    {
+        return $this->belongsTo(\App\Models\Master\Siswa::class, "siswa_id");
+    }
 }
