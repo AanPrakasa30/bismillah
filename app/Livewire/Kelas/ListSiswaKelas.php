@@ -43,6 +43,9 @@ class ListSiswaKelas extends Component
 
 
         // dd($siswas);
-        return view('livewire.kelas.list-siswa-kelas', compact("siswas"));
+        return view('livewire.kelas.list-siswa-kelas', [
+            "siswas" => $siswas,
+            "id" => $this->id
+        ]);
     }
 }

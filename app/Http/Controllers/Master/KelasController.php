@@ -145,6 +145,13 @@ class KelasController extends Controller
         }
     }
 
+    public function deleteSiswa($id, $relasaiId)
+    {
+        \App\Models\Relasi\KelasSiswa::findOrFail($relasaiId)->delete();
+
+        return back()->with('success', 'siswa berhasil dihapus dari kelas');
+    }
+
     public function delete($id)
     {
         $kelas = Kelas::findOrFail($id);
