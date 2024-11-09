@@ -24,7 +24,7 @@ class SiswaServiceImpl implements SiswaService
         // define range file cols
         $columnRange = [
             'first' => 'A',
-            'last' => 'D'
+            'last' => 'E'
         ];
 
         $pathTemp = $this->fileService->getTempPathFile($folderTemp);
@@ -36,7 +36,8 @@ class SiswaServiceImpl implements SiswaService
             'NO',
             'NIS',
             'NAMA',
-            'KELAMIN'
+            'KELAMIN',
+            'ALAMAT'
         ]);
 
         // export data worksheet
@@ -57,7 +58,8 @@ class SiswaServiceImpl implements SiswaService
                     $siswa = Siswa::firstOrCreate(['NIS' => trim($siswaDatas['2'])], [
                         'NIS' => trim($siswaDatas['2']),
                         'nama' => trim($siswaDatas['3']),
-                        'kelamin' => trim($siswaDatas['4'])
+                        'kelamin' => trim($siswaDatas['4']),
+                        'alamat' => trim($siswaDatas['5']) ?? null
                     ]);
 
                     if ($siswa->wasRecentlyCreated) {
