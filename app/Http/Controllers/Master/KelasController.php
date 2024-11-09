@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\Master\Kelas;
+use App\Models\Master\Siswa;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
@@ -69,6 +70,44 @@ class KelasController extends Controller
         } catch (\Throwable $th) {
             logError("kelas failed to update", $th);
             return back()->with("error", "kelas gagal diubah");
+        }
+    }
+
+    public function registerSiswa($id)
+    {
+        $kelas = Kelas::findOrFail($id);
+        return view("pages.kelas.register-kelas", compact("id"));
+    }
+
+    public function registerSiswaPost(Request $request, $id)
+    {
+        $request->validate([
+            "nis" => ["required", "numeric"],
+            "tahun" => ["required", "string", "max:4", "min:4"]
+        ]);
+
+        $siswa = Siswa::where('NIS', $request->input("nis"))->first();
+
+        if (!$siswa) {
+            return back()->withErrors('siswa tidak terdaftar atau NIS tidak ditemukan');
+        }
+
+        $kelas = Kelas::findOrFail($id);
+
+        try {
+            $kelasSiswa = \App\Models\Relasi\KelasSiswa::firstOrCreate(['siswa_id' => $siswa->id, 'kelas_id' => $kelas->id, 'tahun' => $request->input('tahun')], [
+                'siswa_id' => $siswa->id,
+                'kelas_id' => $kelas->id,
+                'tahun' => $request->input('tahun')
+            ]);
+
+            if (!$kelasSiswa->wasRecentlyCreated) {
+                return back()->withErrors('siswa tersebut sudah pernah terdaftar pada kelas tersebut pada tahun tersebut');
+            }
+
+            return back()->with('success', 'siswa berhasil ditambahkan kedalam kelas');
+        } catch (\Throwable $th) {
+            return back()->with("error", "server error, coba lagi nanti!");
         }
     }
 
