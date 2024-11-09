@@ -32,7 +32,8 @@ class SiswaController extends Controller
             $siswa = Siswa::create([
                 'NIS' => $request->input('nis'),
                 'nama' => $request->input('name'),
-                'kelamin' => $request->input('kelamin')
+                'kelamin' => $request->input('kelamin'),
+                'alamat' => $request->input('alamat')
             ]);
 
             logNotice('siswa success to create', [

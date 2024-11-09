@@ -28,6 +28,10 @@
                 <option @selected(old('kelamin', $siswa->kelamin) == 'WANITA')>WANITA</option>
             </select>
         </div>
+        <div class="mb-5">
+            <x-basic-label for="alamat" title="alamat" />
+            <textarea name="alamat" id="alamat" cols="30" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{ $siswa->alamat }}</textarea>
+        </div>
         <div class="flex justify-end">
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Buat</button>
         </div>

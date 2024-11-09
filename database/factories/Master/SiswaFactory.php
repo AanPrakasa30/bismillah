@@ -19,7 +19,8 @@ class SiswaFactory extends Factory
         return [
             'NIS' => rand(),
             'nama' => fake()->name(),
-            'kelamin' => fake()->boolean() ? 'PRIA' : 'WANITA'
+            'kelamin' => fake()->boolean() ? 'PRIA' : 'WANITA',
+            'alamat' => fake()->address()
         ];
     }
 }
