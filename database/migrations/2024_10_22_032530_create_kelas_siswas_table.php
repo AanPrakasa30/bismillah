@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('siswa_id')->references('id')->on('siswas')->cascadeOnDelete();
             $table->foreignId('kelas_id')->references('id')->on('kelas')->cascadeOnDelete();
-            $table->foreignId('angkatan_id')->references('id')->on('angkatans')->cascadeOnDelete();
+            $table->smallInteger('tahun');
             $table->timestamps();
         });
     }

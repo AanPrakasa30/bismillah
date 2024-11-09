@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\Master\Kelas;
+use App\Models\Master\Siswa;
 use Illuminate\Http\Request;
 
 class KelasController extends Controller
@@ -70,6 +71,85 @@ class KelasController extends Controller
             logError("kelas failed to update", $th);
             return back()->with("error", "kelas gagal diubah");
         }
+    }
+
+    public function registerSiswa($id)
+    {
+        $kelas = Kelas::findOrFail($id);
+        return view("pages.kelas.register-kelas", compact("id"));
+    }
+
+    public function registerSiswaPost(Request $request, $id)
+    {
+        $request->validate([
+            "nis" => ["required", "numeric"],
+            "tahun" => ["required", "string", "max:4", "min:4"]
+        ]);
+
+        $siswa = Siswa::where('NIS', $request->input("nis"))->first();
+
+        if (!$siswa) {
+            return back()->withErrors('siswa tidak terdaftar atau NIS tidak ditemukan');
+        }
+
+        $kelas = Kelas::findOrFail($id);
+
+        try {
+            $kelasSiswa = \App\Models\Relasi\KelasSiswa::firstOrCreate(['siswa_id' => $siswa->id, 'kelas_id' => $kelas->id, 'tahun' => $request->input('tahun')], [
+                'siswa_id' => $siswa->id,
+                'kelas_id' => $kelas->id,
+                'tahun' => $request->input('tahun')
+            ]);
+
+            if (!$kelasSiswa->wasRecentlyCreated) {
+                return back()->withErrors('siswa tersebut sudah pernah terdaftar pada kelas tersebut pada tahun tersebut');
+            }
+
+            return back()->with('success', 'siswa berhasil ditambahkan kedalam kelas');
+        } catch (\Throwable $th) {
+            return back()->with("error", "server error, coba lagi nanti!");
+        }
+    }
+
+    public function uploadSiswa($id)
+    {
+        // jika ada hasil reports sebelumnya
+        $reports = session(auth()->user()->id . "-upload-siswa-kelas") ?? null;
+
+        session()->forget(auth()->user()->id . "-upload-siswa-kelas");
+
+        return view("pages.kelas.upload-siswa-kelas", compact("id", "reports"));
+    }
+
+    public function uploadSiswaPost(Request $request, $id, \App\Services\Interfaces\SiswaService $siswaService)
+    {
+        $request->validate([
+            "fileSiswa" => "required",
+            "tahun" => ["required", "string", "max:4", "min:4"]
+        ]);
+
+        $kelas = Kelas::findOrFail($id);
+
+        try {
+            $reports = $siswaService->registerKelasSiswaBySpreadsheetTemp($request->input("fileSiswa"), $kelas, $request->input("tahun"));
+
+            session([
+                auth()->user()->id . "-upload-siswa-kelas" => $reports
+            ]);
+
+            return back()->with('success', 'data berhasil diolah');
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            dd($th);
+        }
+    }
+
+    public function deleteSiswa($id, $relasaiId)
+    {
+        \App\Models\Relasi\KelasSiswa::findOrFail($relasaiId)->delete();
+
+        return back()->with('success', 'siswa berhasil dihapus dari kelas');
     }
 
     public function delete($id)

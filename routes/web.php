@@ -93,6 +93,14 @@ Route::middleware(['auth'])->group(function () {
                 Route::get("/{id}/edit", [KelasController::class, "edit"])->name("master.kelas.edit");
                 Route::post("/{id}/edit", [KelasController::class, "editPost"]);
 
+                Route::get("/{id}/register", [KelasController::class, "registerSiswa"])->name("master.kelas.register");
+                Route::post("/{id}/register", [KelasController::class, "registerSiswaPost"]);
+
+                ROute::get('/{id}/upload-siswa', [KelasController::class, "uploadSiswa"])->name("master.kelas.upload");
+                ROute::post('/{id}/upload-siswa', [KelasController::class, "uploadSiswaPost"]);
+
+                ROute::get('/{id}/{relasi_id}/delete', [KelasController::class, "deleteSiswa"])->name("master.kelas.delete-siswa");
+
                 Route::get("/{id}/delete", [KelasController::class, "delete"])->name("master.kelas.delete");
             });
         });

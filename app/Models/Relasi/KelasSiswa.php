@@ -14,13 +14,8 @@ class KelasSiswa extends Pivot
         'id'
     ];
 
-    public function kelas(): BelongsTo
+    public function siswa()
     {
-        return $this->belongsTo(\App\Models\Master\Kelas::class, 'kelas_id');
-    }
-
-    public function angkatan(): BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Master\Angkatan::class, 'angkatan_id');
+        return $this->belongsTo(\App\Models\Master\Siswa::class, "siswa_id");
     }
 }

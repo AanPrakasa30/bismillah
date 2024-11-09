@@ -13,27 +13,31 @@ class SiswaSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AngkatanSeeder::class,
             KelasSeeder::class
         ]);
 
-        \App\Models\Master\Siswa::factory(50)->create()->each(function ($siswa) {
-            $angkatan = \App\Models\Master\Angkatan::orderBy('tahun')->limit(3)->get()->pluck('id');
-            $kelas    = \App\Models\Master\Kelas::inRandomOrder()->take(3)->pluck('id');
+        $angkatans = [
+            2012,
+            2013,
+            2014
+        ];
 
-            foreach ($angkatan as $angkatanId) {
+        \App\Models\Master\Siswa::factory(50)->create()->each(function ($siswa) use ($angkatans) {
+            $kelas = \App\Models\Master\Kelas::inRandomOrder()->take(3)->pluck('id');
+
+            foreach ($angkatans as $tahun) {
                 foreach ($kelas as $kelasId) {
                     if (
                         !\App\Models\Relasi\KelasSiswa::where([
                             'siswa_id' => $siswa->id,
-                            'angkatan_id' => $angkatanId
+                            'tahun' => $tahun
                         ])->exists()
                     ) {
                         // buat baru
                         \App\Models\Relasi\KelasSiswa::create([
                             'siswa_id' => $siswa->id,
                             'kelas_id' => $kelasId,
-                            'angkatan_id' => $angkatanId
+                            'tahun' => $tahun
                         ]);
                     }
                 }

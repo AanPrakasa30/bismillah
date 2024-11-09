@@ -60,13 +60,13 @@
                     <div class="p-4 md:p-5 space-y-4">
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, ratione.</p>
                         <div class="grid grid-cols-2 gap-5">
-                            <a href="#" class="w-full border border-gray-100 hover:border-gray-300 shadow h-36 sm:h-64 rounded-lg flex justify-center items-center">
+                            <a href="{{ route('master.kelas.register', $kelas->id) }}" class="w-full border border-gray-100 hover:border-gray-300 shadow h-36 sm:h-64 rounded-lg flex justify-center items-center">
                                 <div class="text-gray-500 text-center">
                                     <i class="fa-regular fa-square-plus text-xl sm:text-[3rem]"></i>
                                     <p class="mt-2 font-bold">Create</p>
                                 </div>
                             </a>
-                            <a href="#" class="w-full border border-gray-100 hover:border-gray-300 shadow h-36 sm:h-64 rounded-lg flex justify-center items-center">
+                            <a href="{{ route('master.kelas.upload', $kelas->id) }}" class="w-full border border-gray-100 hover:border-gray-300 shadow h-36 sm:h-64 rounded-lg flex justify-center items-center">
                                 <div class="text-gray-500 text-center">
                                     <i class="fa-solid fa-upload text-xl sm:text-[3rem]"></i>
                                     <p class="mt-2 font-bold">Upload</p>
@@ -79,6 +79,8 @@
         </div>
 
     </div>
+
+    @livewire("kelas.list-siswa-kelas", ['id' => $kelas->id])
 </section>
 
 <section class="w-full p-4 border border-gray-100 shadow rounded-lg mt-5">

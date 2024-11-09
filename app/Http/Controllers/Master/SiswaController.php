@@ -84,30 +84,9 @@ class SiswaController extends Controller
 
     public function detail($nis)
     {
-        $siswa = Siswa::with('gabung.angkatan', 'gabung.kelas')
+        $siswa = Siswa::with('kelas')
             ->where('NIS', $nis)->first();
 
-        $kelas = $siswa->gabung->sortByDesc(function ($item) {
-            return $item->angkatan->tahun;
-        })->map(function ($item) {
-            return [
-                $item->angkatan->tahun => [
-                    'nama' => $item->kelas->nama,
-                    'jurusan' => $item->kelas->jurusan
-                ]
-            ];
-        });
-
-        $kelasAngkatan = [];
-        foreach ($kelas as $values) {
-            foreach ($values as $key => $value) {
-                $kelasAngkatan[$key] = $value;
-            }
-        }
-
-        $siswa->kelas = $kelasAngkatan;
-
-        // dd($siswa);
         return view("pages.siswa.detail", compact("siswa"));
     }
 }

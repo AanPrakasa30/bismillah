@@ -24,7 +24,7 @@ class ListSiswa extends Component
     public function render()
     {
 
-        $siswas = Siswa::with("gabung.kelas", "gabung.angkatan")
+        $siswas = Siswa::with("kelas")
             ->when($this->search != '', function ($query) {
                 $query->where('nama', 'like', "%$this->search%");
             })
