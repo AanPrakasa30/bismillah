@@ -9,6 +9,7 @@ use App\Http\Controllers\KonselingController;
 use App\Http\Controllers\KonselingKelController;
 use App\Http\Controllers\Master\KelasController;
 use App\Http\Controllers\Master\SiswaController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,10 +29,10 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::prefix('profile')->group(function () {
-            Route::get('/', [UserProfileController::class, 'index'])->name('profile.index');
-            Route::post('/', [UserProfileController::class, 'update']);
-        });
+        // Route::prefix('profile')->group(function () {
+        //     Route::get('/', [UserProfileController::class, 'index'])->name('profile.index');
+        //     Route::post('/', [UserProfileController::class, 'update']);
+        // });
 
         Route::prefix("absen")->group(function () {
             Route::get("/", [AbsensiController::class, 'index'])->name("absen.index");
@@ -75,6 +76,19 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix("master")->group(function () {
+
+            Route::prefix("users")->group(function () {
+                Route::get("/", [UserController::class, "index"])->name("master.user.index");
+                Route::get("/create", [UserController::class, "create"])->name("master.user.create");
+                Route::post("/create", [UserController::class, "createPost"]);
+
+                Route::get("/edit/{id}", [UserController::class, "edit"])->name("master.user.edit");
+                Route::post("/edit/{id}", [UserController::class, "editPost"]);
+
+                Route::get("/delete/{id}", [UserController::class, "delete"])->name("master.user.delete");
+
+            });
+
             Route::prefix("/siswa")->group(function () {
                 Route::get("/", [SiswaController::class, 'index'])->name("master.siswa.index");
                 Route::get("/create", [SiswaController::class, 'create'])->name("master.siswa.create");
