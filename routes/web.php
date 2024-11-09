@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::post("/upload", [SiswaController::class, "uploadPost"]);
 
                 Route::get("/{nis}", [SiswaController::class, 'detail'])->name("master.siswa.detail");
+                Route::post("/{nis}", [SiswaController::class, 'detailPost']);
             });
 
             Route::prefix("kelas")->group(function () {

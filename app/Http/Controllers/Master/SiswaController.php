@@ -90,4 +90,32 @@ class SiswaController extends Controller
 
         return view("pages.siswa.detail", compact("siswa"));
     }
+
+    public function detailPost(Request $request, $nis)
+    {
+        $request->validate([
+            'nis' => ['required', 'numeric', 'unique:siswas,nis,' . $nis],
+            'name' => ['required', 'max:255', 'min:2'],
+            'kelamin' => ['required', 'in:PRIA,WANITA'],
+        ], [
+            'nis.unique' => 'NIS sudah digunakan'
+        ]);
+
+
+        $siswa = Siswa::with('kelas')
+            ->where('NIS', $nis)->firstOrFail();
+
+        try {
+            $siswa->NIS     = $request->input('nis');
+            $siswa->nama    = $request->input('name');
+            $siswa->kelamin = $request->input('kelamin');
+            $siswa->alamat  = $request->input('alamat');
+            $siswa->save();
+
+            return redirect()->route('master.siswa.detail', $siswa->NIS)->with('success', 'berhasil mengubah data');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'server error coba lagi nanti');
+        }
+
+    }
 }

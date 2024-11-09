@@ -78,9 +78,7 @@
                             0
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
-                            |
-                            <a href="#" class="font-medium text-red-600 hover:underline">Delete</a>
+                            <a href="{{ route('master.kelas.delete-siswa', ['id' => $item['id'], 'relasi_id' => $item->pivot->id]) }}" class="font-medium text-red-600 hover:underline">Delete</a>
                         </td>
                     </tr>
                 @empty
