@@ -37,8 +37,9 @@
         <div class="mb-5">
             <x-basic-label for="tipe" title="Tipe" />
             <select name="tipe" id="tipe" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                <option @selected(old('tipe') == 'INHAL')>INHAL</option>
+                <option @selected(old('tipe') == 'ALPHA')>ALPHA</option>
                 <option @selected(old('tipe') == 'IZIN')>IZIN</option>
+                <option @selected(old('tipe') == 'SAKIT')>SAKIT</option>
             </select>
         </div>
         <div class="mb-5">

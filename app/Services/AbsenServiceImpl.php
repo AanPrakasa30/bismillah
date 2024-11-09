@@ -80,7 +80,7 @@ class AbsenServiceImpl implements AbsenService
                             'kelas' => $siswaDatas['4'],
                             'tahun_angkatan' => $siswaDatas['5'],
                             'tanggal' => $siswaDatas['6'],
-                            'tipe' => $siswaDatas['7'],
+                            'tipe' => \Illuminate\Support\Str::upper(trim($siswaDatas['7'])),
                             'keterangan' => $siswaDatas['8'],
                             'user_id' => $userId
                         ]);
